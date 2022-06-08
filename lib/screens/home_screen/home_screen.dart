@@ -24,7 +24,13 @@ String selectedValue = 'Más reciente primero';
   @override
   Widget build(BuildContext context) {
 
+    // Se crea la instancia del provider para que se
+    // encargue de traer la data y actualizar el estado
+    // de los widgets que lo necesiten.
     final homeProvider = Provider.of<HomeProvider>(context);
+    // Toma el tamaño de la pantalla del dispositivo que
+    // está ejecutando la aplicación. Se puede utilizar
+    // size.width y size.height para el diseño.
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -43,6 +49,8 @@ String selectedValue = 'Más reciente primero';
                 children: [
                   const Text('Ordenar por: ',
                     style: TextStyle(fontWeight: FontWeight.bold),),
+                  // Crea el dropdown y modifica la variable selectedValue
+                  // dependiendo de la opción seleccionada.
                   CustomDropdownButton2(
                     buttonWidth: size.width * 0.5,
                     dropdownWidth: size.width * 0.5,
@@ -58,6 +66,9 @@ String selectedValue = 'Más reciente primero';
                 ],
               ),
               const SizedBox(height: 10,),
+              // Genera la tarjetas con información resumida de los sismos.
+              // Recibe la data que trae el provider y el valor seleccionado
+              // del dropdown.
               EarthquakeCards( 
                 earthquakes: homeProvider.onDisplayEarthquakes,
                 sortValue: selectedValue

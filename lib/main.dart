@@ -17,6 +17,8 @@ class AppState extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        // Aquí se agregan los providers que se usarán en el proyecto.
+        // Para agregar más, solo sepáralos con una coma (,).
         ChangeNotifierProvider(create: ( _ ) => HomeProvider())
       ],
       child: const MyApp(),
@@ -29,6 +31,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Aquí se configuran algunas cosas básicas de la aplicación
+    // como el título, las rutas o los colores del tema.
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'TiemblApp',

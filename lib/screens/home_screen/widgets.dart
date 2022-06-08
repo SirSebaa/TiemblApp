@@ -18,6 +18,8 @@ class EarthquakeCards extends StatelessWidget {
 
     final size = MediaQuery.of(context).size;
 
+    // Muestra un círculo de estilo "cargando"
+    // mientras el provider consigue la data.
     while( earthquakes.isEmpty ){
       return SizedBox(
         width: size.width,
@@ -28,6 +30,8 @@ class EarthquakeCards extends StatelessWidget {
       );
     }
 
+    // Ordena la data por fecha dependiendo de la opción
+    // seleccionada en el dropdown del HomeScreen
     if(sortValue == 'Más reciente primero'){
       earthquakes.sort((a, b) => b.fecha.compareTo(a.fecha));
     }
@@ -35,6 +39,9 @@ class EarthquakeCards extends StatelessWidget {
       earthquakes.sort((a, b) => a.fecha.compareTo(b.fecha));
 
     }
+
+    // Este builder genera tarjeta con los datos de cada item
+    // que trae el provider y las ordena verticalmente.
     return ListView.builder(
       itemCount: earthquakes.length,
       physics: const NeverScrollableScrollPhysics(),
@@ -42,18 +49,22 @@ class EarthquakeCards extends StatelessWidget {
       itemBuilder: (BuildContext context, int index){
         final earthquake = earthquakes[index];
         return GestureDetector(
+          // Se detecta el gesto de "tap" para navegar a la pantalla EarthquakeScreen
+          // enviando el objeto Earthquake de la tarjeta seleccionada.
           onTap: () => Navigator.pushNamed(context, 'earthquake', arguments: earthquake),
           child: Container(
             decoration: BoxDecoration(
+              // Se utiliza un getter del modelo Earthquake que devuelve un color
+              // dependiendo del número de la magnitud.
               color: earthquake.magnitudeColor,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(10),
               border: Border.all(
                 color: Colors.black,
                 width: 1
               )
             ),
-            padding: const EdgeInsets.symmetric(vertical: 20),
-            margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 5),
+            margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -61,11 +72,11 @@ class EarthquakeCards extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(15),
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: Colors.white54,
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(
                       color: Colors.black,
-                      width: 1
+                      width: 0
                     )
                   ),
                   child: Column(
@@ -90,6 +101,8 @@ class EarthquakeCards extends StatelessWidget {
                           children: [
                             const Text('Fecha: ',
                               style: TextStyle(fontWeight: FontWeight.bold),),
+                            // Se utiliza un getter del modelo Earthquake que retorna
+                            // la fecha en un formato más amigable.
                             Text(earthquake.dateFormat),
                           ],
                         ),
@@ -102,7 +115,8 @@ class EarthquakeCards extends StatelessWidget {
                               child: Text(earthquake.refGeografica,
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,
-                                softWrap: false,),
+                                softWrap: false,
+                              ),
                             ),
                           ],
                         ),

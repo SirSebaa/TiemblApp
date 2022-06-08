@@ -7,6 +7,8 @@ class EarthquakeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    // Recibe el argumento enviado desde el HomeScreen y lo trata como
+    // un objeto Earthquake.
     final Earthquake earthquake = ModalRoute.of(context)!.settings.arguments as Earthquake;
     final size = MediaQuery.of(context).size;
 
@@ -19,10 +21,13 @@ class EarthquakeScreen extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
         child: Column(
           children: [
+            // Utiliza una imagen guardada en la carpeta assets.
             Image.asset('assets/sismo_pin.png',
               height: size.height * 0.2
             ),
             const SizedBox(height: 20,),
+            // Genera la tarjeta con la información completa del sismo seleccionado
+            // en la pantalla HomeScreen.
             Container(
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
