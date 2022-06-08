@@ -33,48 +33,59 @@ String selectedValue = 'Más reciente primero';
     // size.width y size.height para el diseño.
     final size = MediaQuery.of(context).size;
 
+    Future<void> _pullRefresh() async{
+      homeProvider.getOnDisplayEarthquakes();
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Últimos sismos registrados'),
       ),
-      body: SingleChildScrollView(
-        physics: const ScrollPhysics(),
-        child: Container(
-          margin: const EdgeInsets.symmetric(vertical: 5),
-          child: Column(
-            children: [
-              const SizedBox(height: 10,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text('Ordenar por: ',
-                    style: TextStyle(fontWeight: FontWeight.bold),),
-                  // Crea el dropdown y modifica la variable selectedValue
-                  // dependiendo de la opción seleccionada.
-                  CustomDropdownButton2(
-                    buttonWidth: size.width * 0.5,
-                    dropdownWidth: size.width * 0.5,
-                    hint: 'Selecciona el orden',
-                    dropdownItems: items,
-                    value: selectedValue,
-                    onChanged: (value) {
-                      setState(() {
-                        selectedValue = value!;
-                      });
-                    },
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10,),
-              // Genera la tarjetas con información resumida de los sismos.
-              // Recibe la data que trae el provider y el valor seleccionado
-              // del dropdown.
-              EarthquakeCards( 
-                earthquakes: homeProvider.onDisplayEarthquakes,
-                sortValue: selectedValue
-              ),
-            ],
-          )
+      body: RefreshIndicator(
+        onRefresh: _pullRefresh,
+        child: SingleChildScrollView(
+          physics: const ScrollPhysics(),
+          child: Container(
+            margin: const EdgeInsets.symmetric(vertical: 5),
+            child: Column(
+              children: [
+                const SizedBox(height: 10,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text('Ordenar por: ',
+                      style: TextStyle(fontWeight: FontWeight.bold),),
+                    // Crea el dropdown y modifica la variable selectedValue
+                    // dependiendo de la opción seleccionada.
+                    CustomDropdownButton2(
+                      buttonDecoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10)
+                      ),
+                      buttonWidth: size.width * 0.5,
+                      dropdownWidth: size.width * 0.5,
+                      hint: 'Selecciona el orden',
+                      dropdownItems: items,
+                      value: selectedValue,
+                      onChanged: (value) {
+                        setState(() {
+                          selectedValue = value!;
+                        });
+                      },
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10,),
+                // Genera la tarjetas con información resumida de los sismos.
+                // Recibe la data que trae el provider y el valor seleccionado
+                // del dropdown.
+                EarthquakeCards( 
+                  earthquakes: homeProvider.onDisplayEarthquakes,
+                  sortValue: selectedValue
+                ),
+              ],
+            )
+          ),
         ),
       ),
     );
